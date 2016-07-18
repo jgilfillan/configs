@@ -17,12 +17,11 @@ call vundle#begin()
 " let Vundle manage Vundle, required
 Plugin 'VundleVim/Vundle.vim'
 
-Bundle "https://github.com/altercation/vim-colors-solarized.git"
-Bundle "https://github.com/scrooloose/nerdtree.git"
-Plugin 'terryma/vim-multiple-cursors'
+" Bundle "https://github.com/scrooloose/nerdtree.git"
+"Plugin 'terryma/vim-multiple-cursors'
 " UltiSnips Plugin
 " Track the engine.
-Plugin 'SirVer/ultisnips'
+" Plugin 'SirVer/ultisnips'
 
 " plugin which allows you to drag visual blocks around
 Plugin 'jondkinney/dragvisuals.vim.git'
@@ -34,8 +33,10 @@ Plugin 'honza/vim-snippets'
 Plugin 'bling/vim-airline' 
 
 " colour schemes
-Plugin 'flazz/vim-colorschemes'
+Plugin 'jgilfillan/vim-colorschemes'
 
+" fuzzy matcher
+" Plugin 'ctrlpvim/ctrlp.vim'
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
 filetype plugin indent on    " required
@@ -82,11 +83,6 @@ set rnu    "relative line numbers
 set backspace=2    " set backspace to work like normal editors
 set nowrap
 
-" tab settings
-set expandtab    " insert spaces whenever tab key is pressed
-set tabstop=2    " 2 spaces between tabs
-set shiftwidth=2 " number of spaces characters inserted for indentation
-
 " always show airline status line plugin
 set laststatus=2
 
@@ -120,6 +116,9 @@ nnoremap <leader>' ciw'<C-r>"'<ESC>
 " comment/uncomment sql
 nnoremap <C-kPlus> 0i--<ESC>j0
 nnoremap <C-kMinus> 0xx<ESC>j0
+
+" format sql
+nnoremap <leader>f :%s/\s\+/ /gie <bar> %s/\s\+$//gie <bar> %s/ ,$\n\s*\(\w\+\)/\r  ,\1/e <bar> %s/dwbi./dwmart./gie <bar> %s/d_program/program_dim/gie <bar> %s/d_organisation/organisation_dim/gie <bar> %s/current_ind/latest_flag/gie <bar> %s/^where /where 1=1\rand /ie <bar> %s/\s*and 1=1\n//gie <bar> %s/^ *\(and \<bar>on \)/  \1/ie <bar> %s/^\s*,/  ,/ie <bar> %s/^select\s\+/select\r   /ie <bar> %s/^select\n\s*/select\r   /gie <cr>
 "------------------------------------------------------------------------ 
 " assign keys for dragvisuals plugin
 vmap  <expr>  <LEFT>   DVB_Drag('left')
@@ -130,3 +129,11 @@ vmap  <expr>  D        DVB_Duplicate()
  
 " Remove any introduced trailing whitespace after moving...
 let g:DVB_TrimWS = 1
+
+"----------------------------------------------------------------------------------------------------
+
+" tab handling
+set tabstop=2
+set shiftwidth=2
+set softtabstop=2
+set expandtab

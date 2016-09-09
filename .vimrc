@@ -117,6 +117,18 @@ nnoremap <leader>' ciw'<C-r>"'<ESC>
 nnoremap <C-kPlus> 0i--<ESC>j0
 nnoremap <C-kMinus> 0xx<ESC>j0
 
+function! ToggleSQLComment()
+  let line=getline('.')
+  echo line
+  if strpart(line, 0, 2) == "--"
+      call setline('.', substitute(line, "^--", "", "e"))
+  else
+      call setline('.', substitute(line, "^", "--", "e"))
+  endif
+endfunction
+
+nnoremap <C-j> :call ToggleSQLComment()<esc>j
+nnoremap <C-k> :call ToggleSQLComment()<esc>k
 " format sql
 nnoremap <leader>f :%s/\s\+/ /gie <bar> %s/\s\+$//gie <bar> %s/ ,$\n\s*\(\w\+\)/\r  ,\1/e <bar> %s/dwbi./dwmart./gie <bar> %s/d_program/program_dim/gie <bar> %s/d_organisation/organisation_dim/gie <bar> %s/current_ind/latest_flag/gie <bar> %s/^where /where 1=1\rand /ie <bar> %s/\s*and 1=1\n//gie <bar> %s/^ *\(and \<bar>on \)/  \1/ie <bar> %s/^\s*,/  ,/ie <bar> %s/^select\s\+/select\r   /ie <bar> %s/^select\n\s*/select\r   /gie <cr>
 

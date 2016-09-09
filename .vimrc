@@ -5,10 +5,10 @@ filetype off                  " required
 
 " check if windows or linux and set the runtime path to include Vundle and initialize
 if has('win32')
-  set rtp+=~/vimfiles/bundle/Vundle.vim/
-  au GUIEnter * simalt ~x   "start maximised
+	set rtp+=~/vimfiles/bundle/Vundle.vim/
+	au GUIEnter * simalt ~x   "start maximised
 elseif has('unix')
-  set rtp+=~/.vim/bundle/Vundle.vim
+	set rtp+=~/.vim/bundle/Vundle.vim
 endif
 
 " start vundle
@@ -18,7 +18,7 @@ call vundle#begin()
 Plugin 'VundleVim/Vundle.vim'
 
 " Bundle "https://github.com/scrooloose/nerdtree.git"
-"Plugin 'terryma/vim-multiple-cursors'
+Plugin 'terryma/vim-multiple-cursors'
 " UltiSnips Plugin
 " Track the engine.
 " Plugin 'SirVer/ultisnips'
@@ -57,7 +57,7 @@ filetype plugin indent on    " required
 "-----START Visual Config------
 " Visual config
 if has('win32')
-  set guifont=Consolas:h10
+set guifont=Consolas:h10
 elseif has('unix')
   " set guifont=Anonymous\ Pro\ 11
   set guifont=DejaVu\ Sans\ Mono\ 10.5
@@ -119,6 +119,28 @@ nnoremap <C-kMinus> 0xx<ESC>j0
 
 " format sql
 nnoremap <leader>f :%s/\s\+/ /gie <bar> %s/\s\+$//gie <bar> %s/ ,$\n\s*\(\w\+\)/\r  ,\1/e <bar> %s/dwbi./dwmart./gie <bar> %s/d_program/program_dim/gie <bar> %s/d_organisation/organisation_dim/gie <bar> %s/current_ind/latest_flag/gie <bar> %s/^where /where 1=1\rand /ie <bar> %s/\s*and 1=1\n//gie <bar> %s/^ *\(and \<bar>on \)/  \1/ie <bar> %s/^\s*,/  ,/ie <bar> %s/^select\s\+/select\r   /ie <bar> %s/^select\n\s*/select\r   /gie <cr>
+
+" function to be called to change trailing commas to leading commas
+function! TrailingToLeadingCommas()
+  " Save cursor position
+  let l:winview = winsaveview()
+  " Reposition trailing commas
+  s/\s*,\s*\n\s*/\r  ,/e
+  " Move cursor to original position
+  call winrestview(l:winview)
+endfunction
+function! TrailingToLeadingCommas()
+"  for lineno in range(a:firstline, a:lastline)
+"    let line = getline(lineno)
+"    let cleanLine = substitute(line, '\(\s\| \)\+$', '', 'e')
+"    call setline(lineno, cleanLine)
+"  endfor
+  let cmd = a:firstline . "," . a:lastline . "s/\\s*,\\s*\\n\\s*/\\r  ,/e"
+  execute cmd
+endfunction
+" FTC / Fix Trailing Commas
+command! -range=% FTC <line1>,<line2>call TrailingToLeadingCommas() | norm! ``
+"command! -range=% FTC <line1>,<line2>call TrailingToLeadingCommas()
 "------------------------------------------------------------------------ 
 " assign keys for dragvisuals plugin
 vmap  <expr>  <LEFT>   DVB_Drag('left')

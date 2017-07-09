@@ -5,7 +5,7 @@ filetype off                  " required
 
 " check if windows or linux and set the runtime path to include Vundle and initialize
 if has('win32')
-	set rtp+=~/vimfiles/bundle/Vundle.vim/
+	set rtp+=~/.vim/bundle/Vundle.vim/
 	au GUIEnter * simalt ~x   "start maximised
 elseif has('unix')
 	set rtp+=~/.vim/bundle/Vundle.vim
@@ -34,6 +34,8 @@ Plugin 'bling/vim-airline'
 
 " colour schemes
 Plugin 'jgilfillan/vim-colorschemes'
+
+Plugin 'colepeters/spacemacs-theme.vim'
 
 " fuzzy matcher
 " Plugin 'ctrlpvim/ctrlp.vim'
@@ -65,7 +67,8 @@ endif
 set linespace=2
 syntax enable
 set background=dark
-colorscheme mustang
+colorscheme spacemacs-theme
+" colorscheme mustang
 "-----END Visual Config------
 
 " Ultisnip config
@@ -117,20 +120,13 @@ nnoremap <leader>' ciw'<C-r>"'<ESC>
 nnoremap <C-kPlus> 0i--<ESC>j0
 nnoremap <C-kMinus> 0xx<ESC>j0
 
-function! ToggleSQLComment()
-  let line=getline('.')
-  echo line
-  if strpart(line, 0, 2) == "--"
-      call setline('.', substitute(line, "^--", "", "e"))
-  else
-      call setline('.', substitute(line, "^", "--", "e"))
-  endif
-endfunction
-
-nnoremap <C-j> :call ToggleSQLComment()<esc>j
-nnoremap <C-k> :call ToggleSQLComment()<esc>k
 " format sql
-nnoremap <leader>f :%s/\s\+/ /gie <bar> %s/\s\+$//gie <bar> %s/ ,$\n\s*\(\w\+\)/\r  ,\1/e <bar> %s/dwbi./dwmart./gie <bar> %s/d_program/program_dim/gie <bar> %s/d_organisation/organisation_dim/gie <bar> %s/current_ind/latest_flag/gie <bar> %s/^where /where 1=1\rand /ie <bar> %s/\s*and 1=1\n//gie <bar> %s/^ *\(and \<bar>on \)/  \1/ie <bar> %s/^\s*,/  ,/ie <bar> %s/^select\s\+/select\r   /ie <bar> %s/^select\n\s*/select\r   /gie <cr>
+nnoremap <leader>f :%s/\s\+/ /gie <bar> %s/\s\+$//gie <bar> %s/ ,$\n\s*\(\w\+\)/\r  ,\1/e <bar> %s/dwbi./dwmart./gie <bar> %s/^where /where 1=1\rand /ie <bar> %s/\s*and 1=1\n//gie <bar> %s/^ *\(and \<bar>on \)/  \1/ie <bar> %s/^\s*,/  ,/ie <bar> %s/^select\s\+/select\r   /ie <bar> %s/^select\n\s*/select\r   /gie <cr>
+" nnoremap <leader>f :%s/\s\+/ /gie <bar> %s/\s\+$//gie <bar> %s/ ,$\n\s*\(\w\+\)/\r  ,\1/e <bar> %s/dwbi./dwmart./gie <bar> %s/d_program/program_dim/gie <bar> %s/d_organisation/organisation_dim/gie <bar> %s/current_ind/latest_flag/gie <bar> %s/^where /where 1=1\rand /ie <bar> %s/\s*and 1=1\n//gie <bar> %s/^ *\(and \<bar>on \)/  \1/ie <bar> %s/^\s*,/  ,/ie <bar> %s/^select\s\+/select\r   /ie <bar> %s/^select\n\s*/select\r   /gie <cr>
+
+" take a line of tab separated column names and make a vertical list for a
+" select statement
+nnoremap <leader>s V:s/\t/\r  ,/gie<ESC>ggVGguI   ggVG"+yw
 
 " function to be called to change trailing commas to leading commas
 function! TrailingToLeadingCommas()
@@ -142,11 +138,6 @@ function! TrailingToLeadingCommas()
   call winrestview(l:winview)
 endfunction
 function! TrailingToLeadingCommas()
-"  for lineno in range(a:firstline, a:lastline)
-"    let line = getline(lineno)
-"    let cleanLine = substitute(line, '\(\s\| \)\+$', '', 'e')
-"    call setline(lineno, cleanLine)
-"  endfor
   let cmd = a:firstline . "," . a:lastline . "s/\\s*,\\s*\\n\\s*/\\r  ,/e"
   execute cmd
 endfunction

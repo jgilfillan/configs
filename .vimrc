@@ -17,7 +17,7 @@ call vundle#begin()
 " let Vundle manage Vundle, required
 Plugin 'VundleVim/Vundle.vim'
 
-" Bundle "https://github.com/scrooloose/nerdtree.git"
+Plugin 'scrooloose/nerdtree'
 Plugin 'terryma/vim-multiple-cursors'
 " UltiSnips Plugin
 " Track the engine.
@@ -36,6 +36,10 @@ Plugin 'bling/vim-airline'
 Plugin 'jgilfillan/vim-colorschemes'
 
 Plugin 'colepeters/spacemacs-theme.vim'
+
+" Table mode
+Plugin 'dhruvasagar/vim-table-mode'
+
 
 " fuzzy matcher
 " Plugin 'ctrlpvim/ctrlp.vim'

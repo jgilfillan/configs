@@ -35,6 +35,9 @@ Plugin 'colepeters/spacemacs-theme.vim'
 " Table mode
 Plugin 'dhruvasagar/vim-table-mode'
 
+" Vimwiki
+Plugin 'vimwiki/vimwiki'
+
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
 
@@ -90,8 +93,8 @@ let mapleader = " "
 " reload vimrc
 nnoremap <leader>r :source $MYVIMRC<CR>
 
-" open _vimrc
-nnoremap <leader>_ :e ~\_vimrc<CR>
+" open .vimrc
+nnoremap <leader>_ :e ~\.vimrc<CR>
 
 " save buffer
 nnoremap <leader>w :w<CR>

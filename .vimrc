@@ -1,3 +1,4 @@
+
 set nocompatible              " be iMproved, required
 
 "-----START Vundle Config------
@@ -19,15 +20,9 @@ Plugin 'VundleVim/Vundle.vim'
 
 Plugin 'scrooloose/nerdtree'
 Plugin 'terryma/vim-multiple-cursors'
-" UltiSnips Plugin
-" Track the engine.
-" Plugin 'SirVer/ultisnips'
 
 " plugin which allows you to drag visual blocks around
 Plugin 'jondkinney/dragvisuals.vim.git'
-
-" Snippets are separated from the engine. Add this if you want them:
-Plugin 'honza/vim-snippets'
 
 " airline status line
 Plugin 'bling/vim-airline' 
@@ -40,11 +35,11 @@ Plugin 'colepeters/spacemacs-theme.vim'
 " Table mode
 Plugin 'dhruvasagar/vim-table-mode'
 
-
-" fuzzy matcher
-" Plugin 'ctrlpvim/ctrlp.vim'
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
+
+" #################################################################################################### 
+
 filetype plugin indent on    " required
 " To ignore plugin indent changes, instead use:
 "filetype plugin on
@@ -71,15 +66,8 @@ endif
 set linespace=2
 syntax enable
 set background=dark
-colorscheme spacemacs-theme
-" colorscheme mustang
-"-----END Visual Config------
-
-" Ultisnip config
-" Trigger configuration. Do not use <tab> if you use https://github.com/Valloric/YouCompleteMe.
-let g:UltiSnipsExpandTrigger="<tab>"
-let g:UltiSnipsJumpForwardTrigger="<c-b>"
-let g:UltiSnipsJumpBackwardTrigger="<c-z>"
+" colorscheme spacemacs-theme
+colorscheme mustang
 
 set guioptions-=T  "remove toolbar
 set guioptions-=m  "remove toolbar
@@ -89,6 +77,7 @@ set nu    "line numbers
 set rnu    "relative line numbers
 set backspace=2    " set backspace to work like normal editors
 set nowrap
+"-----END Visual Config------
 
 " always show airline status line plugin
 set laststatus=2
@@ -130,7 +119,8 @@ nnoremap <leader>f :%s/\s\+/ /gie <bar> %s/\s\+$//gie <bar> %s/ ,$\n\s*\(\w\+\)/
 
 " take a line of tab separated column names and make a vertical list for a
 " select statement
-nnoremap <leader>s V:s/\t/\r  ,/gie<ESC>ggVGguI   ggVG"+yw
+nnoremap <leader>s V:s/\t/\r  ,/gie<ESC>ggI   ggVG"+yw
+" nnoremap <leader>s V:s/\t/\r  ,/gie<ESC>ggVGguI   ggVG"+yw
 
 " function to be called to change trailing commas to leading commas
 function! TrailingToLeadingCommas()
@@ -166,3 +156,19 @@ set tabstop=2
 set shiftwidth=2
 set softtabstop=2
 set expandtab
+
+"---- tablemode config
+" set tablemode intersections
+let g:table_mode_corner='|'
+
+"----- vimwiki configuration...
+" vimwiki - Personal Wiki for Vim
+" https://github.com/vimwiki/vimwiki
+" set nocompatible
+" filetype plugin on
+" syntax on
+" vimwiki with markdown support
+let g:vimwiki_ext2syntax = {'.md': 'markdown', '.markdown': 'markdown', '.mdown': 'markdown'}
+" helppage -> :h vimwiki-syntax 
+
+let g:vimwiki_list = [{'path': '~/git/wiki/', 'syntax': 'markdown', 'ext': '.md'}]

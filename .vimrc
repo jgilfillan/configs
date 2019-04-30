@@ -1,7 +1,7 @@
 
 set nocompatible              " be iMproved, required
 
-"-----START Vundle Config------
+"" START Vundle Config
 filetype off                  " required
 
 " check if windows or linux and set the runtime path to include Vundle and initialize
@@ -20,30 +20,17 @@ Plugin 'VundleVim/Vundle.vim'
 
 Plugin 'scrooloose/nerdtree'
 Plugin 'terryma/vim-multiple-cursors'
-
+Plugin 'tpope/vim-fugitive'
+Plugin 'morhetz/gruvbox'
 " plugin which allows you to drag visual blocks around
 Plugin 'jondkinney/dragvisuals.vim.git'
-
-" airline status line
-Plugin 'bling/vim-airline' 
-
-" colour schemes
-Plugin 'jgilfillan/vim-colorschemes'
-
-Plugin 'colepeters/spacemacs-theme.vim'
-
-" Table mode
+Plugin 'itchyny/lightline.vim'
 Plugin 'dhruvasagar/vim-table-mode'
-
-" Vimwiki
-Plugin 'vimwiki/vimwiki'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
-
-" #################################################################################################### 
-
 filetype plugin indent on    " required
+
 " To ignore plugin indent changes, instead use:
 "filetype plugin on
 "
@@ -54,124 +41,118 @@ filetype plugin indent on    " required
 " :PluginClean      - confirms removal of unused plugins; append `!` to auto-approve removal
 "
 " see :h vundle for more details or wiki for FAQ
-"-----END Vundle Config-----
-
 " Put your non-Plugin stuff after this line
 
-"-----START Visual Config------
-" Visual config
-if has('win32')
-set guifont=Consolas:h10
-elseif has('unix')
-  " set guifont=Anonymous\ Pro\ 11
-  set guifont=DejaVu\ Sans\ Mono\ 10.5
-endif
+"" General vim config
+set encoding=utf-8
+" show tab as an aarow, and trailing whitespace as dot
+set listchars=tab:→\ ,trail:•
+set list
+
+" windows font
+" set guifont=Consolas:h10
+" linux font
+set guifont=DejaVu\ Sans\ Mono\ 12.5
 set linespace=2
 syntax enable
-set background=dark
-" colorscheme spacemacs-theme
-colorscheme mustang
 
+let mapleader = " "
+" default position for new splits and vsplits
+set splitbelow
+set splitright
+
+
+" tab handling
+set tabstop=4
+set shiftwidth=4
+set softtabstop=4
+set expandtab
+
+colorscheme gruvbox
+set bg=dark
+let g:gruvbox_contrast_dark = 'soft'
 set guioptions-=T  "remove toolbar
 set guioptions-=m  "remove toolbar
 set guioptions-=r  "remove toolbar
 set guioptions-=L  "remove toolbar
-set nu    "line numbers
-set rnu    "relative line numbers
+" line numbers
+set number
 set backspace=2    " set backspace to work like normal editors
 set nowrap
-"-----END Visual Config------
 
 " always show airline status line plugin
 set laststatus=2
+" Table mode config
+let g:table_mode_corner='|'
 
-"------------------------------------------------------------------------ 
-" custom mappings
-" first map leader key
-let mapleader = " "
 
-" reload vimrc
-nnoremap <leader>r :source $MYVIMRC<CR>
+"" Mappings
+" (f)ile related mappings
+nnoremap <leader>fs :w<cr>
+nnoremap <leader>feR :source ~/.vimrc<cr>
+nnoremap <leader>fed :e ~/.vimrc<cr>
+nnoremap <leader><leader> :
 
-" open .vimrc
-nnoremap <leader>_ :e ~\.vimrc<CR>
+nnoremap <leader>/ :let @/=""<cr>
 
-" save buffer
-nnoremap <leader>w :w<CR>
+" Buffer realted
+nnoremap <leader>bd :q<cr>
+
+" NERDTree Mappings
+nnoremap <leader>fo :NERDTreeToggle<cr>
+nnoremap <leader>fn :Bookmark<cr>
+let NERDTreeShowBookmarks=1
+let NERDTreeShowFiles=1
+let NERDTreeShowHidden=1
+
+" Window management
+nnoremap <leader>wl <C-w>l
+nnoremap <leader>wj <C-w>j
+nnoremap <leader>wh <C-w>h
+nnoremap <leader>wk <C-w>k
+nnoremap <leader>wvs :vs new<cr>
+nnoremap <leader>ws :split new<cr>
+
+"open terminal
+nnoremap <leader>term :vs\|:terminal<cr><C-w>L
 
 " copy to system clipboard
 nnoremap <leader>y "+y
 vnoremap <leader>y "+y
 
-" past from system clipboard
+" paste from system clipboard
 nnoremap <leader>p "+p
 
 " copy entire file to clipboard
 nnoremap <leader>Y ggVG"+y
 
-" surround with single quotes
-nnoremap <leader>' ciw'<C-r>"'<ESC>
-
-" comment/uncomment sql
-nnoremap <C-kPlus> 0i--<ESC>j0
-nnoremap <C-kMinus> 0xx<ESC>j0
-
-" format sql
-nnoremap <leader>f :%s/\s\+/ /gie <bar> %s/\s\+$//gie <bar> %s/ ,$\n\s*\(\w\+\)/\r  ,\1/e <bar> %s/dwbi./dwmart./gie <bar> %s/^where /where 1=1\rand /ie <bar> %s/\s*and 1=1\n//gie <bar> %s/^ *\(and \<bar>on \)/  \1/ie <bar> %s/^\s*,/  ,/ie <bar> %s/^select\s\+/select\r   /ie <bar> %s/^select\n\s*/select\r   /gie <cr>
-" nnoremap <leader>f :%s/\s\+/ /gie <bar> %s/\s\+$//gie <bar> %s/ ,$\n\s*\(\w\+\)/\r  ,\1/e <bar> %s/dwbi./dwmart./gie <bar> %s/d_program/program_dim/gie <bar> %s/d_organisation/organisation_dim/gie <bar> %s/current_ind/latest_flag/gie <bar> %s/^where /where 1=1\rand /ie <bar> %s/\s*and 1=1\n//gie <bar> %s/^ *\(and \<bar>on \)/  \1/ie <bar> %s/^\s*,/  ,/ie <bar> %s/^select\s\+/select\r   /ie <bar> %s/^select\n\s*/select\r   /gie <cr>
-
 " take a line of tab separated column names and make a vertical list for a
 " select statement
 nnoremap <leader>s V:s/\t/\r  ,/gie<ESC>ggI   ggVG"+yw
-" nnoremap <leader>s V:s/\t/\r  ,/gie<ESC>ggVGguI   ggVG"+yw
 
-" function to be called to change trailing commas to leading commas
-function! TrailingToLeadingCommas()
-  " Save cursor position
-  let l:winview = winsaveview()
-  " Reposition trailing commas
-  s/\s*,\s*\n\s*/\r  ,/e
-  " Move cursor to original position
-  call winrestview(l:winview)
-endfunction
-function! TrailingToLeadingCommas()
-  let cmd = a:firstline . "," . a:lastline . "s/\\s*,\\s*\\n\\s*/\\r  ,/e"
-  execute cmd
-endfunction
-" FTC / Fix Trailing Commas
-command! -range=% FTC <line1>,<line2>call TrailingToLeadingCommas() | norm! ``
-"command! -range=% FTC <line1>,<line2>call TrailingToLeadingCommas()
-"------------------------------------------------------------------------ 
-" assign keys for dragvisuals plugin
 vmap  <expr>  <LEFT>   DVB_Drag('left')
 vmap  <expr>  <RIGHT>  DVB_Drag('right')
 vmap  <expr>  <DOWN>   DVB_Drag('down')
 vmap  <expr>  <UP>     DVB_Drag('up')
 vmap  <expr>  D        DVB_Duplicate()
- 
+
 " Remove any introduced trailing whitespace after moving...
 let g:DVB_TrimWS = 1
 
-"----------------------------------------------------------------------------------------------------
+"" Working with folds
 
-" tab handling
-set tabstop=2
-set shiftwidth=2
-set softtabstop=2
-set expandtab
+function! VimDotfileFolds()
+    if getline(v:lnum) =~ '^""'
+        return ">1"
+    elseif getline(v:lnum + 1) =~ '^""'
+        return "<1"
+    else
+        return "="
+    endif
+endfunction
 
-"---- tablemode config
-" set tablemode intersections
-let g:table_mode_corner='|'
+set foldcolumn=3
+set foldmethod=expr
+set foldexpr=VimDotfileFolds()
 
-"----- vimwiki configuration...
-" vimwiki - Personal Wiki for Vim
-" https://github.com/vimwiki/vimwiki
-" set nocompatible
-" filetype plugin on
-" syntax on
-" vimwiki with markdown support
-let g:vimwiki_ext2syntax = {'.md': 'markdown', '.markdown': 'markdown', '.mdown': 'markdown'}
-" helppage -> :h vimwiki-syntax 
-
-let g:vimwiki_list = [{'path': '~/git/wiki/', 'syntax': 'markdown', 'ext': '.md'}]
+nnoremap <TAB> za

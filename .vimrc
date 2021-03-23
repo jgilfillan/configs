@@ -1,7 +1,7 @@
 
 set nocompatible              " be iMproved, required
 
-"" START Vundle Config
+"" START Vundle Config ------------------------------------------
 filetype off                  " required
 
 " check if windows or linux and set the runtime path to include Vundle and initialize
@@ -43,8 +43,14 @@ filetype plugin indent on    " required
 " see :h vundle for more details or wiki for FAQ
 " Put your non-Plugin stuff after this line
 
-"" General vim config
+"" General vim config ------------------------------------------
+
 set encoding=utf-8
+
+" search settings
+set incsearch
+set hlsearch
+
 " show tab as an aarow, and trailing whitespace as dot
 set listchars=tab:→\ ,trail:•
 set list
@@ -88,9 +94,17 @@ let g:table_mode_corner='|'
 
 "" Mappings
 " (f)ile related mappings
+nmap <silent>  ;v  :vs $MYVIMRC<CR>
+
+augroup VimReload
+    autocmd!
+    autocmd BufWritePost  $MYVIMRC  source $MYVIMRC
+augroup END
+
+" turn off search highlight
+nnoremap <leader>h :nohlsearch<CR>
+
 nnoremap <leader>fs :w<cr>
-nnoremap <leader>feR :source ~/.vimrc<cr>
-nnoremap <leader>fed :e ~/.vimrc<cr>
 nnoremap <leader><leader> :
 
 nnoremap <leader>/ :let @/=""<cr>
@@ -122,6 +136,9 @@ vnoremap <leader>y "+y
 
 " paste from system clipboard
 nnoremap <leader>p "+p
+
+" highlight last inserted text
+nnoremap gV `[v`]
 
 " copy entire file to clipboard
 nnoremap <leader>Y ggVG"+y

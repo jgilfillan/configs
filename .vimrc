@@ -62,6 +62,7 @@ set guifont=DejaVu\ Sans\ Mono\ 12.5
 set linespace=2
 syntax enable
 
+" set leader to <space>
 let mapleader = " "
 " default position for new splits and vsplits
 set splitbelow

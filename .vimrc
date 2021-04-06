@@ -17,7 +17,7 @@ call vundle#begin()
 
 " let Vundle manage Vundle, required
 Plugin 'VundleVim/Vundle.vim'
-
+Plugin 'ntpeters/vim-better-whitespace'
 Plugin 'scrooloose/nerdtree'
 Plugin 'terryma/vim-multiple-cursors'
 Plugin 'tpope/vim-fugitive'
@@ -147,6 +147,12 @@ nnoremap <leader>Y ggVG"+y
 " take a line of tab separated column names and make a vertical list for a
 " select statement
 nnoremap <leader>s V:s/\t/\r  ,/gie<ESC>ggI   ggVG"+yw
+
+" Delete blank lines
+nnoremap <leader>D :g/^\s*$/d:nohlsearch
+
+" clean trailing white space
+nnoremap <F12> :StripWhitespace
 
 vmap  <expr>  <LEFT>   DVB_Drag('left')
 vmap  <expr>  <RIGHT>  DVB_Drag('right')
